@@ -15,9 +15,9 @@ function MyComponent() {
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyDJBumFjSoH-7NL9545OiwwS8iF-Mb_LW0",
   });
-  const [currentLocation, setCurrentLocation] = useState(null);
+  const [currentLocation, setCurrentLocation] = useState<any>(null);
 
-  const [map, setMap] = React.useState(null);
+  const [map, setMap] = React.useState<any>(null);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -43,11 +43,11 @@ function MyComponent() {
     }
   }, [isLoaded, currentLocation, map]);
 
-  const onLoad = React.useCallback(function callback(map) {
+  const onLoad = React.useCallback(function callback(map: any) {
     setMap(map);
   }, []);
 
-  const onUnmount = React.useCallback(function callback(map) {
+  const onUnmount = React.useCallback(function callback(map: any) {
     setMap(null);
   }, []);
 
