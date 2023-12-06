@@ -13,22 +13,24 @@ export default function MyComponent() {
   });
 
   const [currentLocation, setCurrentLocation] = useState<any>(null);
-  // console.log(currentLocation);
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          // console.log(position.coords);
-          setCurrentLocation({ lat: latitude, lng: longitude });
-        },
-        (error) => {
-          console.error("Error getting user location:", error);
-        }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-    }
+    const interval = setInterval(() => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            // console.log(position.coords);
+            setCurrentLocation({ lat: latitude, lng: longitude });
+          },
+          (error) => {
+            console.error("Error getting user location:", error);
+          }
+        );
+      } else {
+        console.error("Geolocation is not supported by this browser.");
+      }
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const onLoad = React.useCallback(function callback() {
