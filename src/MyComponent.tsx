@@ -59,8 +59,8 @@ export default function MyComponent() {
       </GoogleMap>
       <div>
         <h2>Current Location:</h2>
-        <p>Latitude: {currentLocation.lat}</p>
-        <p>Longitude: {currentLocation.lng}</p>
+        <p>Latitude: {currentLocation?.lat}</p>
+        <p>Longitude: {currentLocation?.lng}</p>
       </div>
     </>
   ) : (
