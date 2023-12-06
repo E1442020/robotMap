@@ -47,15 +47,22 @@ export default function MyComponent() {
   }, []);
 
   return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={currentLocation}
-      zoom={15} // Adjust the zoom level as per your needs
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-    >
-      {currentLocation && <Marker position={currentLocation} />}
-    </GoogleMap>
+    <>
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={currentLocation}
+        zoom={15} // Adjust the zoom level as per your needs
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+      >
+        {currentLocation && <Marker position={currentLocation} />}
+      </GoogleMap>
+      <div>
+        <h2>Current Location:</h2>
+        <p>Latitude: {currentLocation.lat}</p>
+        <p>Longitude: {currentLocation.lng}</p>
+      </div>
+    </>
   ) : (
     <div>Loading Map...</div>
   );
