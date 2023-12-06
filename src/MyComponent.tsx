@@ -13,14 +13,13 @@ export default function MyComponent() {
   });
 
   const [currentLocation, setCurrentLocation] = useState<any>(null);
-
+  // console.log(currentLocation);
   useEffect(() => {
-    let watchId: any;
-
     if (navigator.geolocation) {
-      watchId = navigator.geolocation.watchPosition(
+      navigator.geolocation.watchPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
+          // console.log(position.coords);
           setCurrentLocation({ lat: latitude, lng: longitude });
         },
         (error) => {
@@ -30,12 +29,6 @@ export default function MyComponent() {
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
-
-    return () => {
-      if (watchId) {
-        navigator.geolocation.clearWatch(watchId);
-      }
-    };
   }, []);
 
   const onLoad = React.useCallback(function callback() {
@@ -46,24 +39,29 @@ export default function MyComponent() {
     // Clean up any resources related to the map if needed
   }, []);
 
-  return isLoaded ? (
+  return (
     <>
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={currentLocation}
-        zoom={15} // Adjust the zoom level as per your needs
-        onLoad={onLoad}
-        onUnmount={onUnmount}
-      >
-        {currentLocation && <Marker position={currentLocation} />}
-      </GoogleMap>
-      <div>
-        <h2>Current Location:</h2>
-        <p>Latitude: {currentLocation?.lat}</p>
-        <p>Longitude: {currentLocation?.lng}</p>
-      </div>
+      {isLoaded ? (
+        <>
+          <GoogleMap
+            key={JSON.stringify(currentLocation)}
+            mapContainerStyle={containerStyle}
+            center={currentLocation}
+            zoom={15} // Adjust the zoom level as per your needs
+            onLoad={onLoad}
+            onUnmount={onUnmount}
+          >
+            {currentLocation && <Marker position={currentLocation} />}
+          </GoogleMap>
+          <div>
+            <h2>Current Location:</h2>
+            <p>Latitude: {currentLocation?.lat}</p>
+            <p>Longitude: {currentLocation?.lng}</p>
+          </div>
+        </>
+      ) : (
+        <div>Loading Map...</div>
+      )}
     </>
-  ) : (
-    <div>Loading Map...</div>
   );
 }
