@@ -6,31 +6,37 @@ const containerStyle = {
   height: "500px",
 };
 
-export default function MyComponent() {
+function MyComponent() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyDJBumFjSoH-7NL9545OiwwS8iF-Mb_LW0", // Replace with your Google Maps API key
   });
 
   const [currentLocation, setCurrentLocation] = useState<any>(null);
+  // console.log(currentLocation);
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            // console.log(position.coords);
-            setCurrentLocation({ lat: latitude, lng: longitude });
-          },
-          (error) => {
-            console.error("Error getting user location:", error);
-          }
-        );
-      } else {
-        console.error("Geolocation is not supported by this browser.");
+    let watchId: any;
+
+    if (navigator.geolocation) {
+      watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setCurrentLocation({ lat: latitude, lng: longitude });
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+
+    return () => {
+      if (watchId) {
+        navigator.geolocation.clearWatch(watchId);
       }
-    }, 1000);
-    return () => clearInterval(interval);
+    };
   }, []);
 
   const onLoad = React.useCallback(function callback() {
@@ -41,29 +47,27 @@ export default function MyComponent() {
     // Clean up any resources related to the map if needed
   }, []);
 
-  return (
+  return isLoaded && currentLocation ? (
     <>
-      {isLoaded ? (
-        <>
-          <GoogleMap
-            key={JSON.stringify(currentLocation)}
-            mapContainerStyle={containerStyle}
-            center={currentLocation}
-            zoom={15} // Adjust the zoom level as per your needs
-            onLoad={onLoad}
-            onUnmount={onUnmount}
-          >
-            {currentLocation && <Marker position={currentLocation} />}
-          </GoogleMap>
-          <div>
-            <h2>Current Location:</h2>
-            <p>Latitude: {currentLocation?.lat}</p>
-            <p>Longitude: {currentLocation?.lng}</p>
-          </div>
-        </>
-      ) : (
-        <div>Loading Map...</div>
-      )}
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={currentLocation}
+        zoom={15}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+      >
+        {/* Child components, such as markers, info windows, etc. */}
+        <>{currentLocation && <Marker position={currentLocation} />}</>
+      </GoogleMap>
+      <div>
+        <h2>Current Location:</h2>
+        <p>Latitude: {currentLocation.lat}</p>
+        <p>Longitude: {currentLocation.lng}</p>
+      </div>
     </>
+  ) : (
+    <div>Map loading error</div>
   );
 }
+
+export default React.memo(MyComponent);
