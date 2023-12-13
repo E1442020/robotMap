@@ -75,18 +75,18 @@ function MyComponent() {
     longitude: 31.6397073,
   });
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setLocation((prevLocation) => ({
-        latitude: prevLocation.latitude + 0.0001,
-        longitude: prevLocation.longitude + 0.0001,
-      }));
-    }, 500);
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setLocation((prevLocation) => ({
+  //       latitude: prevLocation.latitude + 0.0001,
+  //       longitude: prevLocation.longitude + 0.0001,
+  //     }));
+  //   }, 500);
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+  //   return () => {
+  //     clearInterval(timer);
+  //   };
+  // }, []);
 
   return (
     <>
