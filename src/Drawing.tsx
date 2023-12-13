@@ -4,6 +4,7 @@ import {
   DrawingManager,
   Polygon,
   useJsApiLoader,
+  Marker,
 } from "@react-google-maps/api";
 
 const libraries: any = ["drawing"];
@@ -20,8 +21,8 @@ const Drawing = () => {
   const [polygon, setPolygon] = useState<any>(null);
 
   const defaultCenter = {
-    lat: 28.626137,
-    lng: 79.821603,
+    lat: 30.1234777,
+    lng: 31.6397073,
   };
 
   const containerStyle = {
@@ -103,6 +104,7 @@ const Drawing = () => {
         onLoad={onLoadMap}
         mapContainerStyle={containerStyle}
       >
+        <Marker position={defaultCenter} />
         {!polygon && (
           <DrawingManager
             onLoad={(drawingManager) =>
@@ -124,6 +126,8 @@ const Drawing = () => {
           />
         )}
       </GoogleMap>
+      <br />
+      <br />
       {polygon && (
         <>
           <div
