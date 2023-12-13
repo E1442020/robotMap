@@ -70,7 +70,7 @@ function MyComponent() {
   //   );
   // }
 
-  const [location, setLocation] = useState({
+  const [location] = useState({
     latitude: 30.1234777,
     longitude: 31.6397073,
   });
