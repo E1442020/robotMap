@@ -103,14 +103,16 @@ const Drawing = () => {
         onLoad={onLoadMap}
         mapContainerStyle={containerStyle}
       >
-        <DrawingManager
-          onLoad={(drawingManager) =>
-            (drawingManagerRef.current = drawingManager)
-          }
-          // Change to overlaycomplete event directly
-          onOverlayComplete={onOverlayComplete}
-          options={drawingManagerOptions}
-        />
+        {!polygon && (
+          <DrawingManager
+            onLoad={(drawingManager) =>
+              (drawingManagerRef.current = drawingManager)
+            }
+            // Change to overlaycomplete event directly
+            onOverlayComplete={onOverlayComplete}
+            options={drawingManagerOptions}
+          />
+        )}
         {polygon && (
           <Polygon
             onLoad={onLoadPolygon}
