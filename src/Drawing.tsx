@@ -22,6 +22,7 @@ const Drawing = () => {
 
   const [polygon, setPolygon] = useState<any>(null);
   // const [locationType, setLocationType] = useState<any>("");
+  const [isRoad, setIsRoad] = useState(true);
 
   const defaultCenter = {
     lat: 30.1234777,
@@ -32,6 +33,7 @@ const Drawing = () => {
     width: "100%",
     height: "400px",
   };
+  console.log(isRoad, polygon);
 
   const polygonOptions = {
     fillOpacity: 0.3,
@@ -76,6 +78,7 @@ const Drawing = () => {
       const startPoint = newPolygon[0];
       newPolygon.push(startPoint);
       handleMapClick(newPolygon);
+
       setPolygon(newPolygon);
 
       $overlayEvent.overlay?.setMap(null);
@@ -143,6 +146,7 @@ const Drawing = () => {
       //   }
       // );
       try {
+        setIsRoad(true);
         const response = await fetch(
           `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
         );
@@ -152,22 +156,36 @@ const Drawing = () => {
           const addresstype = data.addresstype;
 
           // Check address properties to determine the location type
-          const isRoad = addresstype == "road";
+          const isaAddressTypeRoad = addresstype == "road";
           // const isBuilding = addresstype == "place";
           // const isWater = address?.waterway || address?.natural;
-          if (!isRoad) {
-            toast(
+          if (!isaAddressTypeRoad) {
+            setIsRoad(false);
+            setPolygon(null);
+
+            toast.error(
               `Oops!, The point ${
                 index + 1
-              } you selected does not represent a road.`
+              } you selected does not represent a road.`,
+              {
+                theme: "colored",
+              }
             );
+          } else {
+            toast.success(`Success!, you selected Area Successfully.`, {
+              theme: "colored",
+            });
           }
         } else {
-          toast("Oops!,Error Happened!");
+          toast.error("Oops!,Error Happened!", {
+            theme: "colored",
+          });
         }
       } catch (error) {
         console.error("Error fetching data:", error);
-        toast("Oops!,Error Happened!");
+        toast.error("Oops!,Error Happened!", {
+          theme: "colored",
+        });
       }
     });
   };
@@ -191,7 +209,7 @@ const Drawing = () => {
             options={drawingManagerOptions}
           />
         )}
-        {polygon && (
+        {polygon && isRoad == true && (
           <Polygon
             onLoad={onLoadPolygon}
             options={polygonOptions}
@@ -202,9 +220,11 @@ const Drawing = () => {
           />
         )}
       </GoogleMap>
+      <ToastContainer />
+
       <br />
       <br />
-      {polygon && (
+      {polygon && isRoad == true && (
         <>
           <div
             onClick={onDeletePolygon}
@@ -220,7 +240,6 @@ const Drawing = () => {
           >
             Delete
           </div>
-          <ToastContainer />
           <div>
             <h2>coordinates</h2>
             {polygon.map((cord: any) => {
