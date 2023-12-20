@@ -6,9 +6,8 @@ import {
   useJsApiLoader,
   Marker,
 } from "@react-google-maps/api";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
+import toast from "react-simple-toasts";
+import "react-simple-toasts/dist/theme/dark.css";
 const libraries: any = ["drawing"];
 
 const Drawing = () => {
@@ -22,6 +21,7 @@ const Drawing = () => {
   });
 
   const [polygon, setPolygon] = useState<any>(null);
+  const [create, setCreate] = useState<any>(false);
 
   const defaultCenter = {
     lat: 30.1234777,
@@ -60,6 +60,8 @@ const Drawing = () => {
   };
 
   const onOverlayComplete = ($overlayEvent: any) => {
+    setCreate(false);
+
     drawingManagerRef.current.setDrawingMode(null);
 
     if ($overlayEvent.type === window.google.maps.drawing.OverlayType.POLYGON) {
@@ -75,8 +77,12 @@ const Drawing = () => {
       // Start and end point should be the same for a valid geojson
       const startPoint = newPolygon[0];
       newPolygon.push(startPoint);
-      handleMapClick(newPolygon);
+
+      handleMapClick([...newPolygon]);
       setPolygon(newPolygon);
+      setTimeout(() => {
+        setCreate(true);
+      }, 500);
       $overlayEvent.overlay?.setMap(null);
     }
   };
@@ -87,7 +93,7 @@ const Drawing = () => {
         .getPath()
         .getArray()
         .map((latLng: any) => ({ lat: latLng.lat(), lng: latLng.lng() }));
-      handleMapClick(coordinates);
+      create && handleMapClick(coordinates);
 
       setPolygon(coordinates);
     }
@@ -101,6 +107,8 @@ const Drawing = () => {
   };
 
   const handleMapClick = (coordinatesArray: any) => {
+    // setSuccessArea(true);
+
     coordinatesArray.forEach(async (coordinate: any, index: any) => {
       const lat: any = coordinate.lat;
       const lng = coordinate.lng;
@@ -117,37 +125,34 @@ const Drawing = () => {
           const isaAddressTypeRoad = addresstype == "road";
           // const isBuilding = addresstype == "place";
           // const isWater = address?.waterway || address?.natural;
-
+          if (isaAddressTypeRoad) {
+          }
           if (!isaAddressTypeRoad) {
-            // setPolygon(null);
-            toast.error(
-              `Oops!, The point ${
-                index + 1
-              } you selected does not represent a road.`,
+            toast(
+              <div
+                style={{
+                  backgroundColor: "#EA4335",
+                  padding: "1rem",
+                  color: "white",
+                  border: "none",
+                  borderRadius: ".5rem",
+                }}
+              >
+                {`Oops!, The point ${index + 1}
+                 you selected does not represent a
+                road.`}
+              </div>,
               {
-                theme: "colored",
-              }
-            );
-          } else {
-            toast.success(
-              `Success!,  The point ${
-                index + 1
-              } you selected represent a road.`,
-              {
-                theme: "colored",
+                position: "top-right",
               }
             );
           }
         } else {
-          toast.error("Oops!,Error Happened!", {
-            theme: "colored",
-          });
+          toast("Oops!,Error Happened!");
         }
       } catch (error) {
         console.error("Error fetching data:", error);
-        toast.error("Oops!,Error Happened!", {
-          theme: "colored",
-        });
+        toast("Oops!,Error Happened!");
       }
     });
   };
@@ -182,7 +187,6 @@ const Drawing = () => {
           />
         )}
       </GoogleMap>
-      <ToastContainer />
 
       <br />
       <br />
