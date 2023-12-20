@@ -21,9 +21,6 @@ const Drawing = () => {
   });
 
   const [polygon, setPolygon] = useState<any>(null);
-  // const [locationType, setLocationType] = useState<any>("");
-  const [isRoad, setIsRoad] = useState(true);
-
   const defaultCenter = {
     lat: 30.1234777,
     lng: 31.6397073,
@@ -33,7 +30,6 @@ const Drawing = () => {
     width: "100%",
     height: "400px",
   };
-  console.log(isRoad, polygon);
 
   const polygonOptions = {
     fillOpacity: 0.3,
@@ -108,45 +104,7 @@ const Drawing = () => {
     coordinatesArray.forEach(async (coordinate: any, index: any) => {
       const lat: any = coordinate.lat;
       const lng = coordinate.lng;
-
-      // const geocoder = new window.google.maps.Geocoder();
-      // geocoder.geocode(
-      //   { location: { lat, lng } },
-      //   (results: any, status: any) => {
-      //     if (status === "OK" && results[0]) {
-      //       const addressComponents = results[0].address_components;
-      //       console.log(results);
-
-      //       // Check address components or perform keyword analysis to determine the location type
-      //       const isInsideRoad = results.some((component: any) =>
-      //         component.types.includes("route")
-      //       );
-      //       const isInsideBuilding = results.some(
-      //         (component: any) =>
-      //           component.types.includes("premise") ||
-      //           component.types.includes("establishment")
-      //       );
-      //       const isSea = results.some(
-      //         (component: any) =>
-      //           component.types.includes("natural_feature") &&
-      //           component.long_name.includes("Sea")
-      //       );
-
-      //       const locationType = isInsideRoad
-      //         ? "Road"
-      //         : isInsideBuilding
-      //         ? "Building"
-      //         : isSea
-      //         ? "Sea"
-      //         : "unknown";
-      //       console.log(`Location Type for (${lat}, ${lng}): ${locationType}`);
-      //     } else {
-      //       console.log(`Location Type for (${lat}, ${lng}): Unknown`);
-      //     }
-      //   }
-      // );
       try {
-        setIsRoad(true);
         const response = await fetch(
           `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
         );
@@ -160,9 +118,7 @@ const Drawing = () => {
           // const isBuilding = addresstype == "place";
           // const isWater = address?.waterway || address?.natural;
           if (!isaAddressTypeRoad) {
-            setIsRoad(false);
-            setPolygon(null);
-
+            // setPolygon(null);
             toast.error(
               `Oops!, The point ${
                 index + 1
@@ -209,7 +165,7 @@ const Drawing = () => {
             options={drawingManagerOptions}
           />
         )}
-        {polygon && isRoad == true && (
+        {polygon && (
           <Polygon
             onLoad={onLoadPolygon}
             options={polygonOptions}
@@ -224,7 +180,7 @@ const Drawing = () => {
 
       <br />
       <br />
-      {polygon && isRoad == true && (
+      {polygon && (
         <>
           <div
             onClick={onDeletePolygon}
@@ -244,7 +200,7 @@ const Drawing = () => {
             <h2>coordinates</h2>
             {polygon.map((cord: any) => {
               return (
-                <p>
+                <p key={Math.random()}>
                   <span>lat: {cord.lat}</span> <span>lng: {cord.lng}</span>
                 </p>
               );
