@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const libraries: any = ["drawing"];
+
 const Drawing = () => {
   const mapRef = useRef<any>();
   const polygonRef = useRef<any>();
@@ -21,6 +22,7 @@ const Drawing = () => {
   });
 
   const [polygon, setPolygon] = useState<any>(null);
+
   const defaultCenter = {
     lat: 30.1234777,
     lng: 31.6397073,
@@ -74,9 +76,7 @@ const Drawing = () => {
       const startPoint = newPolygon[0];
       newPolygon.push(startPoint);
       handleMapClick(newPolygon);
-
       setPolygon(newPolygon);
-
       $overlayEvent.overlay?.setMap(null);
     }
   };
@@ -117,6 +117,7 @@ const Drawing = () => {
           const isaAddressTypeRoad = addresstype == "road";
           // const isBuilding = addresstype == "place";
           // const isWater = address?.waterway || address?.natural;
+
           if (!isaAddressTypeRoad) {
             // setPolygon(null);
             toast.error(
@@ -128,9 +129,14 @@ const Drawing = () => {
               }
             );
           } else {
-            toast.success(`Success!, you selected Area Successfully.`, {
-              theme: "colored",
-            });
+            toast.success(
+              `Success!,  The point ${
+                index + 1
+              } you selected represent a road.`,
+              {
+                theme: "colored",
+              }
+            );
           }
         } else {
           toast.error("Oops!,Error Happened!", {
