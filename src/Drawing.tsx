@@ -6,6 +6,8 @@ import {
   useJsApiLoader,
   Marker,
 } from "@react-google-maps/api";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const libraries: any = ["drawing"];
 const Drawing = () => {
@@ -19,6 +21,7 @@ const Drawing = () => {
   });
 
   const [polygon, setPolygon] = useState<any>(null);
+  const [locationType, setLocationType] = useState<any>("");
 
   const defaultCenter = {
     lat: 30.1234777,
@@ -72,8 +75,9 @@ const Drawing = () => {
       // Start and end point should be the same for a valid geojson
       const startPoint = newPolygon[0];
       newPolygon.push(startPoint);
-
+      handleMapClick(newPolygon);
       setPolygon(newPolygon);
+
       $overlayEvent.overlay?.setMap(null);
     }
   };
@@ -84,6 +88,7 @@ const Drawing = () => {
         .getPath()
         .getArray()
         .map((latLng: any) => ({ lat: latLng.lat(), lng: latLng.lng() }));
+      handleMapClick(coordinates);
 
       setPolygon(coordinates);
     }
@@ -94,6 +99,77 @@ const Drawing = () => {
       polygonRef.current.setMap(null);
       setPolygon(null);
     }
+  };
+
+  const handleMapClick = (coordinatesArray: any) => {
+    coordinatesArray.forEach(async (coordinate: any, index: any) => {
+      const lat: any = coordinate.lat;
+      const lng = coordinate.lng;
+
+      // const geocoder = new window.google.maps.Geocoder();
+      // geocoder.geocode(
+      //   { location: { lat, lng } },
+      //   (results: any, status: any) => {
+      //     if (status === "OK" && results[0]) {
+      //       const addressComponents = results[0].address_components;
+      //       console.log(results);
+
+      //       // Check address components or perform keyword analysis to determine the location type
+      //       const isInsideRoad = results.some((component: any) =>
+      //         component.types.includes("route")
+      //       );
+      //       const isInsideBuilding = results.some(
+      //         (component: any) =>
+      //           component.types.includes("premise") ||
+      //           component.types.includes("establishment")
+      //       );
+      //       const isSea = results.some(
+      //         (component: any) =>
+      //           component.types.includes("natural_feature") &&
+      //           component.long_name.includes("Sea")
+      //       );
+
+      //       const locationType = isInsideRoad
+      //         ? "Road"
+      //         : isInsideBuilding
+      //         ? "Building"
+      //         : isSea
+      //         ? "Sea"
+      //         : "unknown";
+      //       console.log(`Location Type for (${lat}, ${lng}): ${locationType}`);
+      //     } else {
+      //       console.log(`Location Type for (${lat}, ${lng}): Unknown`);
+      //     }
+      //   }
+      // );
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          const addresstype = data.addresstype;
+
+          // Check address properties to determine the location type
+          const isRoad = addresstype == "road";
+          const isBuilding = addresstype == "place";
+          // const isWater = address?.waterway || address?.natural;
+          if (!isRoad) {
+            toast(
+              `Oops!, The point ${
+                index + 1
+              } you selected does not represent a road.`
+            );
+          }
+        } else {
+          toast("Oops!,Error Happened!");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        toast("Oops!,Error Happened!");
+      }
+    });
   };
 
   return isLoaded ? (
@@ -144,6 +220,7 @@ const Drawing = () => {
           >
             Delete
           </div>
+          <ToastContainer />
           <div>
             <h2>coordinates</h2>
             {polygon.map((cord: any) => {
