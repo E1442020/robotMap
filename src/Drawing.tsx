@@ -125,8 +125,7 @@ const Drawing = () => {
           const isaAddressTypeRoad = addresstype == "road";
           // const isBuilding = addresstype == "place";
           // const isWater = address?.waterway || address?.natural;
-          if (isaAddressTypeRoad) {
-          }
+
           if (!isaAddressTypeRoad) {
             toast(
               <div
