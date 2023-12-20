@@ -21,7 +21,7 @@ const Drawing = () => {
   });
 
   const [polygon, setPolygon] = useState<any>(null);
-  const [locationType, setLocationType] = useState<any>("");
+  // const [locationType, setLocationType] = useState<any>("");
 
   const defaultCenter = {
     lat: 30.1234777,
@@ -153,7 +153,7 @@ const Drawing = () => {
 
           // Check address properties to determine the location type
           const isRoad = addresstype == "road";
-          const isBuilding = addresstype == "place";
+          // const isBuilding = addresstype == "place";
           // const isWater = address?.waterway || address?.natural;
           if (!isRoad) {
             toast(
