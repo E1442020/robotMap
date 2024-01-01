@@ -6,7 +6,7 @@ const containerStyle = {
   height: "500px",
 };
 
-function MyComponent() {
+function SmoothWalking() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyDJBumFjSoH-7NL9545OiwwS8iF-Mb_LW0", // Replace with your Google Maps API key
@@ -113,4 +113,4 @@ function MyComponent() {
   );
 }
 
-export default React.memo(MyComponent);
+export default React.memo(SmoothWalking);

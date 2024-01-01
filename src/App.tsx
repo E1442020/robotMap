@@ -1,10 +1,11 @@
-import Drawing from "./Drawing";
+import Chart from "./Chart";
 
 function App() {
   return (
     <>
-      {/* <MyComponent /> */}
-      <Drawing />
+      {/* <SmoothWalking /> */}
+      {/* <Drawing /> */}
+      <Chart />
     </>
   );
 }
