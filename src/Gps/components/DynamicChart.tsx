@@ -1,6 +1,6 @@
 import { Box, Flex, Title } from "@mantine/core";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import useIsMobile from "../../designSystem/hooks/use-is-mobile";
 

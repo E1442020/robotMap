@@ -1,9 +1,6 @@
 import Chart from "../Chart";
 
-export type HomeProps = {
-  // props go here
-};
-export default function Home(props: HomeProps) {
+export default function Home() {
   return (
     <>
       <Chart />

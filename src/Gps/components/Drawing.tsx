@@ -24,11 +24,6 @@ const Drawing = () => {
   const [polygon, setPolygon] = useState<any>(null);
   const [create, setCreate] = useState<any>(false);
 
-  const defaultCenter = {
-    lat: 30.1234777,
-    lng: 31.6397073,
-  };
-
   const containerStyle = {
     width: "100%",
     height: "400px",

@@ -4,15 +4,14 @@ import {
   Box,
   Collapse,
   ThemeIcon,
-  Text,
   UnstyledButton,
   rem,
 } from "@mantine/core";
-import { IconCalendarStats, IconChevronRight } from "@tabler/icons-react";
+import { IconChevronRight } from "@tabler/icons-react";
 import classes from "./sidebar.module.scss";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { close, open } from "../Header/slice/menuSlice";
+import { close } from "../Header/slice/menuSlice";
 
 interface LinksGroupProps {
   icon: React.FC<any>;

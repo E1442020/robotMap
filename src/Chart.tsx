@@ -1,6 +1,5 @@
 import "chart.js/auto";
-import { useEffect, useState } from "react";
-import moment from "moment";
+
 import { Bar, Doughnut, Line } from "react-chartjs-2";
 
 export default function Chart() {

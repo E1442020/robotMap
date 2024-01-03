@@ -2,14 +2,12 @@ import {
   Group,
   Button,
   Divider,
-  Box,
   Burger,
   Drawer,
   ScrollArea,
   rem,
   Title,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 
 import classes from "./header.module.scss";
 import Sidebar from "../Sidebar";
