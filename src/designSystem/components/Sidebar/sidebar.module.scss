@@ -1,5 +1,5 @@
 .navbar {
-  background-color: var(--mantine-color-white);
+  background-color: white;
   height: 100vh;
   position: sticky;
   top: 0;
@@ -12,6 +12,9 @@
   display: flex;
   flex-direction: column;
   border-right: 1px solid var(--mantine-color-gray-3);
+  @media (max-width: 1000px) {
+    height: fit-content;
+  }
 }
 
 .links {
