@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   GoogleMap,
   DrawingManager,
@@ -8,6 +8,7 @@ import {
 } from "@react-google-maps/api";
 import toast from "react-simple-toasts";
 import "react-simple-toasts/dist/theme/dark.css";
+import { Button, Flex, Loader } from "@mantine/core";
 const libraries: any = ["drawing"];
 
 const Drawing = () => {
@@ -155,16 +156,33 @@ const Drawing = () => {
       }
     });
   };
+  const [location, setLocation] = useState({
+    lat: 30.1234777,
+    lng: 31.6397073,
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setLocation((prevLocation) => ({
+        lat: prevLocation.lat + 0.0001,
+        lng: prevLocation.lng + 0.0001,
+      }));
+    }, 500);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   return isLoaded ? (
     <div>
       <GoogleMap
         zoom={15}
-        center={defaultCenter}
+        center={location}
         onLoad={onLoadMap}
         mapContainerStyle={containerStyle}
       >
-        <Marker position={defaultCenter} />
+        <Marker position={location} />
         {!polygon && (
           <DrawingManager
             onLoad={(drawingManager) =>
@@ -188,24 +206,12 @@ const Drawing = () => {
       </GoogleMap>
 
       <br />
-      <br />
       {polygon && (
         <>
-          <div
-            onClick={onDeletePolygon}
-            title="Delete shape"
-            style={{
-              cursor: "pointer",
-              backgroundColor: "red",
-              color: "white",
-              width: "fit-content",
-              padding: "5px",
-              borderRadius: "5px",
-            }}
-          >
+          <Button onClick={onDeletePolygon} bg="red">
             Delete
-          </div>
-          <div>
+          </Button>
+          {/* <div>
             <h2>coordinates</h2>
             {polygon.map((cord: any) => {
               return (
@@ -215,11 +221,15 @@ const Drawing = () => {
               );
             })}
             <p></p>
-          </div>
+          </div> */}
         </>
       )}
     </div>
-  ) : null;
+  ) : (
+    <Flex justify="center" align="center">
+      <Loader />
+    </Flex>
+  );
 };
 
 export default Drawing;
