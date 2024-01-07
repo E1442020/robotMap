@@ -1,10 +1,10 @@
-import { Box, Flex, Title } from "@mantine/core";
+import { Box, Title } from "@mantine/core";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import useIsMobile from "../../designSystem/hooks/use-is-mobile";
 
-export default function DynamicChart() {
+export default function DynamicDirectionChart() {
   const [numberXArray, setNumberXArray] = useState<any>([]);
   const [numberYArray, setNumberYArray] = useState<any>([]);
   const [current, setCurrent] = useState<any>(moment());
@@ -65,24 +65,12 @@ export default function DynamicChart() {
   };
   return (
     <>
-      <Flex
-        justify="space-between"
-        direction={mobile ? "column" : "row"}
-        gap="md"
-      >
-        <Box w={mobile ? "100%" : "49%"}>
-          <Title order={5} c="gray.8">
-            Live Direction x , y
-          </Title>
-          <Line data={data} />
-        </Box>
-        <Box w={mobile ? "100%" : "49%"}>
-          <Title order={5} c="gray.8">
-            Live Rotation x , y
-          </Title>
-          <Line data={data} />
-        </Box>
-      </Flex>
+      <Box w={mobile ? "100%" : "49%"}>
+        <Title order={5} c="gray.7">
+          Live Direction x , y
+        </Title>
+        <Line data={data} />
+      </Box>
     </>
   );
 }

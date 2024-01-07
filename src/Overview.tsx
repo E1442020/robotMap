@@ -1,8 +1,9 @@
+import { Box, Title } from "@mantine/core";
 import "chart.js/auto";
 
 import { Bar, Doughnut, Line } from "react-chartjs-2";
 
-export default function Chart() {
+export default function Overview() {
   return (
     <>
       <div
@@ -16,14 +17,14 @@ export default function Chart() {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: "2rem",
+            gap: "3rem",
           }}
         >
-          <div>
-            <h2>
+          <Box>
+            <Title order={4} c="gray.7">
               The number of hours consumed by the robot during the days of the
               week.
-            </h2>
+            </Title>
             <Bar
               data={{
                 labels: ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"],
@@ -37,11 +38,11 @@ export default function Chart() {
                 ],
               }}
             />
-          </div>
-          <div>
-            <h2>
+          </Box>
+          <Box>
+            <Title order={4} c="gray.7">
               The amount of sealant consumed by the robot in the last 3 days
-            </h2>
+            </Title>
             <div
               style={{
                 height: "300px",
@@ -63,11 +64,11 @@ export default function Chart() {
                 }}
               />
             </div>
-          </div>
-          <div>
-            <h2>
+          </Box>
+          <Box>
+            <Title order={4} c="gray.7">
               The number of locations visited by the robot in the last 4 weeks.
-            </h2>
+            </Title>
             <Line
               data={{
                 labels: [
@@ -81,6 +82,8 @@ export default function Chart() {
                   {
                     label: "Locations",
                     data: [20, 53, 10, 30],
+                    borderWidth: 2,
+                    pointRadius: 0,
                     fill: false,
                     backgroundColor: "#4F6F52",
                     borderColor: "#4F6F52",
@@ -89,13 +92,14 @@ export default function Chart() {
                     label: "Locations",
                     data: [10, 56, 7, 56],
                     fill: false,
+                    pointRadius: 0,
                     backgroundColor: "#5D3587",
                     borderColor: "#5D3587",
                   },
                 ],
               }}
             />
-          </div>
+          </Box>
         </div>
       </div>
     </>

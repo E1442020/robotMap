@@ -1,9 +1,9 @@
-import Chart from "../Chart";
+import Overview from "../Overview";
 
 export default function Home() {
   return (
     <>
-      <Chart />
+      <Overview />
     </>
   );
 }

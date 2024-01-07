@@ -19,7 +19,7 @@ const mockdata = [
 ];
 
 export default function Sidebar() {
-  const color = usePrimaryColorHex(2);
+  const color = usePrimaryColorHex();
   const links = mockdata.map((item) => (
     <LinksGroup {...item} key={item.label} />
   ));
@@ -32,8 +32,8 @@ export default function Sidebar() {
 
       <div className={classes.footer}>
         <Flex align="center" gap=".3rem" bg={color}>
-          <Avatar />
-          <Title c="gray.9" order={5}>
+          <Avatar color="white" />
+          <Title c="white" order={5}>
             User
           </Title>
         </Flex>
