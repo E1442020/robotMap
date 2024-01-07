@@ -40,7 +40,7 @@ export default function DynamicSealantChart() {
               ta="center"
               size="xl"
             >
-              {volume} GM
+              {volume} L
             </Text>
           }
         />

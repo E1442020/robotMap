@@ -50,7 +50,7 @@ export default function DynamicSealantTempChart() {
     <>
       <Box w={mobile ? "100%" : "49%"}>
         <Title order={5} c="gray.8">
-          Robot Temperature
+          Sealant Temperature
         </Title>
         <Line data={data} />
       </Box>

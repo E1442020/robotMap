@@ -11,7 +11,7 @@ export default function DynamicBatteryChart() {
           Battery Charge
         </Title>
         <BatteryGauge
-          value={50}
+          value={10}
           size={150}
           orientation="horizontal"
           customization={{
@@ -25,21 +25,6 @@ export default function DynamicBatteryChart() {
               cornerRadius: 1,
               strokeWidth: 1,
               capToBodyRatio: 0.3,
-            },
-            batteryMeter: {
-              outerGap: 0,
-              gradFill: [
-                { color: "red", offset: 0 },
-                { color: "orange", offset: 40 },
-                { color: "green", offset: 90 },
-              ],
-            },
-            readingText: {
-              lightContrastColor: "purple",
-              darkContrastColor: "yellow",
-              lowBatteryColor: "red",
-              fontFamily: "Arial",
-              fontSize: 12,
             },
           }}
         >
