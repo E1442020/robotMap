@@ -1,6 +1,6 @@
 import {
   ActionIcon,
-  Badge,
+  Box,
   Button,
   Flex,
   Modal,
@@ -65,11 +65,18 @@ export default function Setting() {
             ) : null}
           </Flex>
           <Flex direction="column" gap="sm" mt="md">
-            <Badge variant="light" color="green">
-              The robot will stop and restart with any change made.
-            </Badge>
+            <Flex wrap="wrap" c="green.6">
+              <Box variant="light" bg="green.1" p=".2rem">
+                The robot will stop and restart with any change made.
+              </Box>
+            </Flex>
 
-            <Button size="xs" type="submit" onClick={() => dispatch(close())}>
+            <Button
+              variant="light"
+              size="xs"
+              type="submit"
+              onClick={() => dispatch(close())}
+            >
               Save
             </Button>
           </Flex>

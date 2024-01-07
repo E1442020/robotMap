@@ -15,7 +15,7 @@ export default function RobotSetting() {
         mb="sm"
         justify="space-between"
         direction={mobile ? "column" : "row"}
-        gap="sm"
+        gap={mobile && status !== "off" ? "sm" : undefined}
       >
         <Flex align="center" gap="md" w={mobile ? "100%" : undefined}>
           <Title order={4} c="gray.7">

@@ -7,7 +7,7 @@ export default function DynamicBatteryChart() {
   return (
     <>
       <Flex direction="column" align="center" w={mobile ? "100%" : "33%"}>
-        <Title my="sm" c="gray.7" order={4}>
+        <Title mb="xs" c="gray.7" order={4}>
           Battery Charge
         </Title>
         <BatteryGauge

@@ -39,7 +39,7 @@ export default function Gps() {
       <Flex
         justify="space-between"
         direction={mobile ? "column" : "row"}
-        gap="md"
+        gap="3rem"
         my="md"
       >
         <DynamicSealantChart />
