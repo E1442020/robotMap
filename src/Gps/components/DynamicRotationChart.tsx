@@ -46,16 +46,17 @@ export default function DynamicRotationChart() {
     labels: timeArray,
     datasets: [
       {
-        label: "Line 1",
-        data: numberXArray,
+        label: "X",
+        data: numberXArray.length > 0 ? numberXArray : [0],
         backgroundColor: "rgba(79,192,12,0.4)",
         borderColor: "rgba(75,192,12,1)",
         borderWidth: 2,
         pointRadius: 0,
       },
       {
-        label: "Line 2",
-        data: numberYArray,
+        label: "Y",
+        data: numberYArray.length > 0 ? numberYArray : [0],
+
         backgroundColor: "rgba(255,99,13,0.4)",
         borderColor: "rgba(255,99,13,1)",
         borderWidth: 2,
@@ -65,11 +66,17 @@ export default function DynamicRotationChart() {
   };
   return (
     <>
-      <Box w={mobile ? "100%" : "49%"}>
+      <Box w={mobile ? "100%" : "49%"} h={mobile ? "300px" : "400px"}>
         <Title order={5} c="gray.7">
           Live Rotation x , y
         </Title>
-        <Line data={data} />
+        <Line
+          data={data}
+          options={{
+            maintainAspectRatio: false,
+            responsive: true,
+          }}
+        />
       </Box>
     </>
   );
