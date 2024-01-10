@@ -49,7 +49,7 @@ export default function DynamicRobotTempChart() {
   };
   return (
     <>
-      <Box w={mobile ? "100%" : "49%"}>
+      <Box w={mobile ? "100%" : "49%"} h={mobile ? "300px" : "400px"}>
         <Title order={5} c="gray.8">
           Robot Temperature
         </Title>
